@@ -1,4 +1,4 @@
-defmodule Dnote.Repo.Migrations.CreateLabels do
+defmodule Dnote.Repo.Migrations.CreateLabelBoards do
   use Ecto.Migration
 
   def change do

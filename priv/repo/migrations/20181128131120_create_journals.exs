@@ -8,7 +8,7 @@ defmodule Dnote.Repo.Migrations.CreateJournals do
 
       add :index, :integer, default: 0, null: false
 
-      add :labels, :string
+      add :labels, {:array, :string}
       add :content, :text, null: false
       add :message, :text
 
