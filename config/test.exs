@@ -16,3 +16,6 @@ config :dnote, Dnote.Repo,
   database: "dnote_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Shorten hashing time
+config :pbkdf2_elixir, :rounds, 1
