@@ -13,7 +13,7 @@ defmodule Dnote.Repo.Migrations.CreateArticles do
       add :content_text, :text, null: false
       add :content_html, :text, null: false
 
-      add :preview, :map
+      add :preview, :map, null: false
 
       add :journal_count, :integer, default: 0
 
@@ -22,6 +22,7 @@ defmodule Dnote.Repo.Migrations.CreateArticles do
 
     create index(:articles, [:board_id])
     create index(:articles, [:account_id])
+    create index(:articles, [:label_ids], using: "GIN")
 
     alter table(:journals) do
       add :article_id, references(:articles, on_delete: :nothing)
