@@ -20,41 +20,41 @@ defmodule Dnote.Journal do
   def changeset(model, attrs) do
     model
     |> cast(attrs, [:labels, :content, :message])
-    |> update_change(:labels, &DnoteUtil.reject_blanks/1)
-    |> validate_length(:labels, max: 10, message: "Too many labels (10 entries max)")
-    |> validate_unique_labels
-    |> validate_label_lengths
-    |> validate_required([:content])
-    |> validate_length(:content, min: 1, max: 20000)
+    |> validate_labels
+    |> validate_content
     |> validate_length(:message, max: 250)
   end
 
-  defp validate_unique_labels(%{changes: %{labels: labels}} = chset) do
+  defp validate_labels(chset) do
+    chset
+    |> update_change(:labels, &DnoteUtil.reject_blanks/1)
+    |> validate_length(:labels, max: 10, message: "Too many labels (10 entries max)")
+    |> validate_labels_inner
+  end
+
+  defp validate_labels_inner(chset) do
+    labels = chset |> get_change(:labels, [])
+
     case labels -- Enum.uniq(labels) do
-      [] -> chset
+      [] -> Enum.reduce(labels, chset, &validate_label_length(&2, &1))
       dups -> add_error(chset, :labels, "Duplicate entries: #{inspect(dups)}")
     end
   end
 
-  defp validate_unique_labels(chset), do: chset
-
-  defp validate_label_lengths(%{changes: %{labels: labels}} = chset) do
-    Enum.reduce(labels, chset, &validate_label_length(&2, &1))
-  end
-
-  defp validate_label_lengths(chset), do: chset
-
   @max_length 15
 
   defp validate_label_length(chset, label) do
-    if String.length(label) <= @max_length do
-      chset
+    if String.length(label) > @max_length do
+      message = "Label \"#{label}\" too long (should be as most #{@max_length} characters)"
+      add_error(chset, :labels, message)
     else
       chset
-      |> add_error(
-        :labels,
-        "Label \"#{label}\" too long (each label should be as most #{@max_length} characters)"
-      )
     end
+  end
+
+  defp validate_content(chset) do
+    chset
+    |> validate_required([:content])
+    |> validate_length(:content, min: 1, max: 20000)
   end
 end
