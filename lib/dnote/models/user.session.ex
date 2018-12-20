@@ -3,8 +3,9 @@ defmodule Dnote.Session do
   import Ecto.Changeset
 
   schema "sessions" do
+    belongs_to :account, Dnote.Account
+
     field :is_expired, :boolean, default: false
-    field :account_id, :id
 
     field :email, :string, virtual: true
     field :password, :string, virtual: true
@@ -22,24 +23,23 @@ defmodule Dnote.Session do
     |> authenticate
   end
 
-  defp authenticate(%{valid?: true, changes: %{email: email, password: password}} = chset) do
+  defp authenticate(%{valid?: false} = chset), do: chset
+
+  defp authenticate(%{changes: %{email: email, password: pass}} = chset) do
     case Dnote.Repo.get_by(Dnote.Account, email: email) do
       nil ->
         Pbkdf2.no_user_verify()
-        chset |> add_login_error_message
+        add_vague_error_message(chset)
 
       account ->
-        if Pbkdf2.verify_pass(password, account.password_encrypted) do
-          chset |> put_change(:account_id, account.id)
-        else
-          chset |> add_login_error_message
+        case Pbkdf2.verify_pass(pass, account.password_hash) do
+          true -> put_change(chset, :account, account)
+          false -> add_vague_error_message(chset)
         end
     end
   end
 
-  defp authenticate(chset), do: chset
-
-  defp add_login_error_message(chset) do
-    chset |> add_error(:email, "Email or password do not match")
+  defp add_vague_error_message(chset) do
+    add_error(chset, :email, "Email or password do not match")
   end
 end

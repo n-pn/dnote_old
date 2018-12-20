@@ -3,12 +3,14 @@ defmodule Dnote.Account do
   import Ecto.Changeset
 
   schema "accounts" do
+    field :role, :string, default: "user"
+
     field :email, :string
     field :username, :string
-    field :password_encrypted, :string
+    field :password_hash, :string
 
-    field :label_count, :integer
     field :board_count, :integer
+    field :label_count, :integer
     field :journal_count, :integer
     field :article_count, :integer
 
@@ -58,10 +60,10 @@ defmodule Dnote.Account do
     |> encrypt_password
   end
 
-  defp encrypt_password(%{valid?: true, changes: %{password: password}} = chset) do
-    password_encrypted = Pbkdf2.hash_pwd_salt(password)
-    chset |> put_change(:password_encrypted, password_encrypted)
-  end
+  defp encrypt_password(%{valid?: false} = chset), do: chset
 
-  defp encrypt_password(chset), do: chset
+  defp encrypt_password(%{changes: %{password: pass}} = chset) do
+    password_hash = Pbkdf2.hash_pwd_salt(pass)
+    put_change(chset, :password_hash, password_hash)
+  end
 end

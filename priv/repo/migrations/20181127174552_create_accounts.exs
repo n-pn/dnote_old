@@ -3,12 +3,14 @@ defmodule Dnote.Repo.Migrations.CreateAccounts do
 
   def change do
     create table(:accounts) do
+      add :role, :string, default: "user", null: false
+
       add :email, :citext, null: false
       add :username, :citext, null: false
-      add :password_encrypted, :string, null: false
+      add :password_hash, :string, null: false
 
-      add :label_count, :integer, default: 0, null: false
       add :board_count, :integer, default: 0, null: false
+      add :label_count, :integer, default: 0, null: false
       add :journal_count, :integer, default: 0, null: false
       add :article_count, :integer, default: 0, null: false
 
