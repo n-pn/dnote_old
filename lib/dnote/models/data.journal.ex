@@ -7,11 +7,12 @@ defmodule Dnote.Journal do
     belongs_to :account, Dnote.Account
     belongs_to :article, Dnote.Article
 
-    field :index, :integer
-
     field :labels, {:array, :string}, default: []
     field :content, :string
     field :message, :string
+
+    field :index, :integer
+    field :status, :string
 
     timestamps()
   end

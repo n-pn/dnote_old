@@ -5,17 +5,24 @@ defmodule Dnote.Repo.Migrations.CreateJournals do
     create table(:journals) do
       add :board_id, references(:boards, on_delete: :nothing)
       add :account_id, references(:accounts, on_delete: :nothing)
-
-      add :index, :integer, default: 0, null: false
+      add :article_id, references(:articles, on_delete: :nothing)
 
       add :labels, {:array, :string}
       add :content, :text, null: false
       add :message, :text
 
+      add :index, :integer, default: 0, null: false
+      add :status, :string, default: "draft", null: false
+
       timestamps()
     end
 
-    create index(:journals, [:board_id])
-    create index(:journals, [:account_id])
+    create index(:journals, [:board_id, :status])
+    create index(:journals, [:account_id, :status])
+    create index(:journals, [:article_id])
+
+    alter table(:articles) do
+      add :current_journal_id, references(:journals, on_delete: :nothing)
+    end
   end
 end

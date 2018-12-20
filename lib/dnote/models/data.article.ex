@@ -12,6 +12,8 @@ defmodule Dnote.Article do
     field :content, :string
     field :preview, :map
 
+    field :status, :string, default: "public"
+
     field :journal_count, :integer
     has_one :current_journal, Dnote.Journal
     has_many :journals, Dnote.Journal
