@@ -5,8 +5,6 @@ defmodule Dnote.Article do
   schema "articles" do
     belongs_to :account, Dnote.Account
     belongs_to :board, Dnote.Board
-    has_many :journals, Dnote.Journal
-    has_one :journal, Dnote.Journal
 
     field :label_ids, {:array, :integer}, default: []
     field :label_names, {:array, :string}, default: []
@@ -15,6 +13,8 @@ defmodule Dnote.Article do
     field :preview, :map
 
     field :journal_count, :integer
+    has_one :current_journal, Dnote.Journal
+    has_many :journals, Dnote.Journal
 
     timestamps()
   end
