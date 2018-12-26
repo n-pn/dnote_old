@@ -19,8 +19,8 @@ defmodule Dnote.Repo.Migrations.CreateArticles do
       timestamps()
     end
 
-    create index(:articles, [:board_id])
-    create index(:articles, [:account_id])
+    create index(:articles, [:board_id, :status])
+    create index(:articles, [:account_id, :status])
     create index(:articles, ["label_ids gin__int_ops"], using: "GIN")
   end
 end
