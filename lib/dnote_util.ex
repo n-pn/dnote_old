@@ -1,4 +1,8 @@
 defmodule DnoteUtil do
+  def parse_int(str) do
+    String.to_integer(str)
+  end
+
   def slugify(str) do
     str
     |> String.downcase()

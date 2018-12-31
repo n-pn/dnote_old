@@ -12,7 +12,7 @@ defmodule Dnote.AccountController do
     with {:ok, account} <- User.create_account(:signup, params),
          {:ok, session} <- User.create_session(:signup, account) do
       conn
-      |> put_session(:session_id, session.id)
+      |> put_session("session_id", session.id)
       |> put_flash(:info, "Signed up successfully.")
       |> redirect("/")
     else

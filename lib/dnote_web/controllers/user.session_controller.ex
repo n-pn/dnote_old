@@ -12,7 +12,7 @@ defmodule Dnote.SessionController do
     case User.create_session(:login, params) do
       {:ok, session} ->
         conn
-        |> put_session(:session_id, session.id)
+        |> put_session("session_id", session.id)
         |> put_flash(:info, "Logged in successfully.")
         |> redirect("/")
 
@@ -22,7 +22,7 @@ defmodule Dnote.SessionController do
   end
 
   def destroy(conn, _params) do
-    case conn |> get_session(:session_id) do
+    case conn |> get_session("session_id") do
       nil ->
         conn
         |> put_flash(:error, "User not logged in.")

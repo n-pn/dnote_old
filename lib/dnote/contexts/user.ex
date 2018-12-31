@@ -39,5 +39,8 @@ defmodule Dnote.User do
     |> Repo.update()
   end
 
-  def get_session(session_id), do: Repo.get(Session, session_id)
+  def get_session(session_id) do
+    Repo.get_by(Session, id: session_id, is_expired: false)
+    |> Repo.preload(:account)
+  end
 end

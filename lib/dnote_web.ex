@@ -24,6 +24,8 @@ defmodule DnoteWeb do
       import Plug.Conn
       import DnoteWeb.Gettext
       alias DnoteWeb.Router.Helpers, as: Routes
+
+      import DnoteWeb.IdentifyUser, only: [current_user: 1, logged_in?: 1]
     end
   end
 
@@ -42,6 +44,8 @@ defmodule DnoteWeb do
       import DnoteWeb.ErrorHelpers
       import DnoteWeb.Gettext
       alias DnoteWeb.Router.Helpers, as: Routes
+
+      import DnoteWeb.IdentifyUser, only: [current_user: 1, logged_in?: 1]
     end
   end
 
@@ -57,6 +61,18 @@ defmodule DnoteWeb do
     quote do
       use Phoenix.Channel
       import DnoteWeb.Gettext
+    end
+  end
+
+  def plug do
+    quote do
+      use Phoenix.Controller, namespace: DnoteWeb
+
+      import Plug.Conn
+      import DnoteWeb.Gettext
+      alias DnoteWeb.Router.Helpers, as: Routes
+
+      import DnoteWeb.IdentifyUser, only: [current_user: 1, logged_in?: 1]
     end
   end
 
