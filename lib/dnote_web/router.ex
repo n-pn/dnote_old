@@ -17,18 +17,37 @@ defmodule DnoteWeb.Router do
   scope "/", DnoteWeb do
     pipe_through :browser
 
-    get "/", BoardController, :index
-    get "/~:board", BoardController, :show
-
-    get "/_labels", LabelController, :index
-    get "/!:label", LabelController, :show
-
     get "/signup", AccountController, :new
     post "/signup", AccountController, :create
 
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     get "/logout", SessionController, :destroy
+
+    get "/", HomeController, :index
+
+    get "/$boards", BoardController, :index
+    get "/$boards/new", BoardController, :new
+    post "/$boards", BoardController, :create
+    get "/~:board", BoardController, :show
+    get "/~:board/edit", BoardController, :edit
+    put "/~:board", BoardController, :update
+    delete "/~:board", BoardController, :destroy
+
+    get "/$labels", LabelController, :index
+    get "/_labels", LabelController, :query
+    get "/!:label", LabelController, :show
+
+    get "/$articles", ArticleController, :index
+    get "/$articles/new", ArticleController, :new
+    get "/&:article", ArticleController, :show
+    get "/&:article/edit", ArticleController, :edit
+
+    get "/$journals", JournalController, :index
+    get "/$journals/new", JournalController, :new
+    get "/_:journal", JournalController, :edit
+    post "/_:journal", JournalController, :update
+    post "/_:journal/publish", JournalController, :publish
   end
 
   # Other scopes may use custom stacks.

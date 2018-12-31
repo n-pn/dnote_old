@@ -3,6 +3,11 @@ defmodule Dnote.List do
 
   alias Dnote.{Repo, Account, Board, Label, BoardLabel}
 
+  def board_changeset(params) do
+    %Board{}
+    |> Ecto.Changeset.change(params)
+  end
+
   def get_board(account, name) do
     slug = DnoteUtil.slugify(name)
     Repo.get_by(Board, slug: slug, account_id: account.id)
