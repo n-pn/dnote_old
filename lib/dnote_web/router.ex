@@ -17,6 +17,13 @@ defmodule DnoteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    get "/signup", AccountController, :new
+    post "/signup", AccountController, :create
+
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :destroy
   end
 
   # Other scopes may use custom stacks.

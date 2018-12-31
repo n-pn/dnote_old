@@ -16,19 +16,40 @@ defmodule Dnote.Account do
 
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+    field :old_password, :string, virtual: true
 
     timestamps()
   end
 
-  @fields [:email, :username, :password, :password_confirmation]
-
   @doc false
-  def changeset(model, attrs) do
+  def changeset(model, attrs, :manual) do
     model
-    |> cast(attrs, @fields)
+    |> cast(attrs, [:role, :email, :username, :password])
+    |> validate_email
+    |> validate_username
+    |> encrypt_password
+  end
+
+  def changeset(model, attrs, :signup) do
+    model
+    |> cast(attrs, [:email, :username, :password, :password_confirmation])
     |> validate_email
     |> validate_username
     |> validate_password
+  end
+
+  def changeset(model, attrs, :email) do
+    model
+    |> cast(attrs, [:email, :old_password])
+    |> validate_email
+    |> validate_old_password
+  end
+
+  def changeset(model, attrs, :password) do
+    model
+    |> cast(attrs, [:old_password, :password, :password_confirmation])
+    |> validate_password
+    |> validate_old_password
   end
 
   @email_format ~r/.+@.+\..+/
@@ -58,6 +79,24 @@ defmodule Dnote.Account do
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
     |> encrypt_password
+  end
+
+  defp validate_old_password(chset) do
+    chset
+    |> validate_required(:old_password)
+    |> check_old_password
+  end
+
+  defp check_old_password(%{valid?: false} = chset), do: chset
+
+  defp check_old_password(%{changes: %{old_password: pass}} = chset) do
+    password_encrypted = chset |> get_field(:password_encrypted)
+
+    if Pbkdf2.verify_pass(pass, password_encrypted) do
+      chset |> add_error(:old_password, "Old passsword doesn't match")
+    else
+      chset
+    end
   end
 
   defp encrypt_password(%{valid?: false} = chset), do: chset

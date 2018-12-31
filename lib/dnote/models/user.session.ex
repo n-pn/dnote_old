@@ -31,7 +31,7 @@ defmodule Dnote.Session do
         add_vague_error_message(chset)
 
       account ->
-        case Pbkdf2.verify_pass(pass, account.password_hash) do
+        case Pbkdf2.verify_pass(pass, account.password_encrytped) do
           true -> put_change(chset, :account, account)
           false -> add_vague_error_message(chset)
         end
