@@ -7,7 +7,7 @@ defmodule Dnote.Repo.Migrations.CreateAccounts do
 
       add :email, :citext, null: false
       add :username, :citext, null: false
-      add :password_hash, :string, null: false
+      add :password_encrypted, :string, null: false
 
       add :board_count, :integer, default: 0, null: false
       add :label_count, :integer, default: 0, null: false

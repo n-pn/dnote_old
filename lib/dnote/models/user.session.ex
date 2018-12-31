@@ -4,7 +4,6 @@ defmodule Dnote.Session do
 
   schema "sessions" do
     belongs_to :account, Dnote.Account
-
     field :is_expired, :boolean, default: false
 
     field :email, :string, virtual: true

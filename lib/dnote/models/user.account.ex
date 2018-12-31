@@ -7,12 +7,12 @@ defmodule Dnote.Account do
 
     field :email, :string
     field :username, :string
-    field :password_hash, :string
+    field :password_encrypted, :string
 
-    field :board_count, :integer
-    field :label_count, :integer
-    field :journal_count, :integer
-    field :article_count, :integer
+    field :board_count, :integer, default: 0
+    field :label_count, :integer, default: 0
+    field :journal_count, :integer, default: 0
+    field :article_count, :integer, default: 0
 
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
@@ -63,7 +63,7 @@ defmodule Dnote.Account do
   defp encrypt_password(%{valid?: false} = chset), do: chset
 
   defp encrypt_password(%{changes: %{password: pass}} = chset) do
-    password_hash = Pbkdf2.hash_pwd_salt(pass)
-    put_change(chset, :password_hash, password_hash)
+    password_encrypted = Pbkdf2.hash_pwd_salt(pass)
+    put_change(chset, :password_encrypted, password_encrypted)
   end
 end

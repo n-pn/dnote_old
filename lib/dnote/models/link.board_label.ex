@@ -6,7 +6,8 @@ defmodule Dnote.BoardLabel do
     belongs_to :board, Dnote.Board
     belongs_to :label, Dnote.Label
 
-    field :article_count, :integer
+    field :weight, :integer, default: 0
+    field :article_count, :integer, default: 0
 
     timestamps()
   end
