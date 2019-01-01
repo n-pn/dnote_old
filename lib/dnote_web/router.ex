@@ -19,6 +19,10 @@ defmodule DnoteWeb.Router do
 
     get "/signup", AccountController, :new
     post "/signup", AccountController, :create
+    get "/change_email", AccountController, :edit_email
+    put "/change_email", AccountController, :update_email
+    get "/change_password", AccountController, :edit_password
+    put "/change_password", AccountController, :update_password
 
     get "/login", SessionController, :new
     post "/login", SessionController, :create

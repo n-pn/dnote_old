@@ -3,6 +3,8 @@ defmodule Dnote.SessionController do
 
   alias Dnote.User
 
+  plug DnoteWeb.AccessControl, "user" when action in [:destroy]
+
   def new(conn, params) do
     chset = User.session_changeset(params)
     render(conn, "new.html", chset: chset)
@@ -22,18 +24,12 @@ defmodule Dnote.SessionController do
   end
 
   def destroy(conn, _params) do
-    case conn |> get_session("session_id") do
-      nil ->
-        conn
-        |> put_flash(:error, "User not logged in.")
-        |> redirect("/")
+    session_id = conn |> get_session("session_id")
 
-      session_id ->
-        User.get_session(session_id) |> User.delete_session()
+    User.delete_session(session_id)
 
-        conn
-        |> put_flash(:info, "Logged out successfully.")
-        |> redirect("/")
-    end
+    conn
+    |> put_flash(:info, "Logged out successfully.")
+    |> redirect("/")
   end
 end
