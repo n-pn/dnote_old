@@ -1,11 +1,10 @@
 defmodule Dnote.List do
-  import Ecto.Query
+  use Dnote, :context
 
-  alias Dnote.{Repo, Account, Board, Label, BoardLabel}
+  alias Dnote.{Account, Board, Label, BoardLabel}
 
-  def board_changeset(params) do
-    %Board{}
-    |> Ecto.Changeset.change(params)
+  def board_changeset(params \\ %{}, board \\ %Board{}) do
+    Ecto.Changeset.change(board, params)
   end
 
   def get_board(account, name) do
@@ -18,18 +17,21 @@ defmodule Dnote.List do
     Repo.get_by(Label, slug: slug, account_id: account.id)
   end
 
-  @limit 20
-  def get_boards(account, page \\ 1) do
-    offset = (page - 1) * @limit
-
-    from(r in Board, where: r.account_id == ^account.id, limit: @limit, offset: ^offset)
+  def get_boards(params) do
+    Board
+    |> Query.where_eq(:account_id, params[:account_id])
+    |> Query.where_like(:name, params[:query])
+    |> Query.paginate(params[:page])
+    |> order_by(desc: :weight)
     |> Repo.all()
   end
 
-  def get_labels(account, page \\ 1) do
-    offset = (page - 1) * @limit
-
-    from(r in Label, where: r.account_id == ^account.id, limit: @limit, offset: ^offset)
+  def get_labels(params) do
+    Label
+    |> Query.where_eq(:account_id, params[:account_id])
+    |> Query.where_like(:name, params[:query])
+    |> Query.paginate(params[:page])
+    |> order_by(desc: :weight)
     |> Repo.all()
   end
 

@@ -24,16 +24,16 @@ defmodule Dnote.AccountController do
   end
 
   def edit_email(conn, params) do
-    account = currennt_user(conn)
+    account = current_user(conn)
     chset = User.account_changeset(params, account)
     render(conn, "edit_email.html", chset: chset)
   end
 
   def update_email(conn, %{"user" => params}) do
-    account = currennt_user(conn)
+    account = current_user(conn)
 
     case User.update_account(:email, account, params) do
-      {:ok, account} ->
+      {:ok, _account} ->
         conn
         |> put_flash(:info, "Email updated successfully.")
         |> redirect("/")
@@ -44,16 +44,16 @@ defmodule Dnote.AccountController do
   end
 
   def edit_password(conn, params) do
-    account = currennt_user(conn)
+    account = current_user(conn)
     chset = User.account_changeset(params, account)
     render(conn, "edit_password.html", chset: chset)
   end
 
   def update_password(conn, %{"user" => params}) do
-    account = currennt_user(conn)
+    account = current_user(conn)
 
     case User.update_account(:password, account, params) do
-      {:ok, account} ->
+      {:ok, _account} ->
         session_id = conn |> get_session("session_id")
         User.expire_user_sessions(account, session_id)
 

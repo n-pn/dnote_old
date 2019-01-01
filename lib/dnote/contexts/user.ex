@@ -1,5 +1,6 @@
 defmodule Dnote.User do
-  alias Dnote.{Repo, Account, Session}
+  use Dnote, :context
+  alias Dnote.{Account, Session}
 
   def account_changeset(params \\ %{}, account \\ %Account{}) do
     Ecto.Changeset.change(account, params)
@@ -33,7 +34,7 @@ defmodule Dnote.User do
   end
 
   def delete_session(session_id) do
-    from (r in Session, where: r.id == ^session_id)
+    from(r in Session, where: r.id == ^session_id)
     |> Repo.update_all(set: [is_expired: true])
   end
 
@@ -43,7 +44,7 @@ defmodule Dnote.User do
   end
 
   def expire_user_sessions(account, session_id \\ 0) do
-    from (r in Session, where: r.account_id == ^account.id, where: r.id != ^session_id)
+    from(r in Session, where: r.account_id == ^account.id, where: r.id != ^session_id)
     |> Repo.update_all(set: [is_expired: true])
   end
 end

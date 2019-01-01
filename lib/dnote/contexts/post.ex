@@ -1,7 +1,7 @@
 defmodule Dnote.Post do
-  import Ecto.Query
+  use Dnote, :context
 
-  alias Dnote.{Repo, Article, Journal, Account}
+  alias Dnote.{Article, Journal, Account}
 
   def get_article(%Account{} = account, slug) do
     id = Obfus.decrypt(slug)
@@ -31,24 +31,12 @@ defmodule Dnote.Post do
     |> Repo.insert()
   end
 
-  @limit 20
   def get_articles(params) do
-    offset = (params[:page] - 1) * @limit
-
-    from(r in Article, limit: @limit, offset: ^offset, order_by: [desc: :weight])
-    |> filter_by(:account_id, params[:account_id])
-    |> filter_by(:board_id, params[:board_id])
-    |> filter_by(:label_ids, params[:label_ids])
+    from(r in Article, order_by: [desc: :weight])
+    |> Query.paginate(params[:page])
+    |> Query.where_eq(:account_id, params[:account_id])
+    |> Query.where_eq(:board_id, params[:board_id])
+    |> Query.where_contain(:label_ids, params[:label_ids])
     |> Repo.all()
-  end
-
-  defp filter_by(query, _, nil), do: query
-
-  defp filter_by(query, type, value) when is_list(value) do
-    from r in query, where: fragment("? @> ?", ^type, ^value)
-  end
-
-  defp filter_by(query, type, value) do
-    from r in query, where: field(r, ^type) == ^value
   end
 end

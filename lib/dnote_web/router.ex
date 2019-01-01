@@ -17,6 +17,8 @@ defmodule DnoteWeb.Router do
   scope "/", DnoteWeb do
     pipe_through :browser
 
+    get "/", HomeController, :index
+
     get "/signup", AccountController, :new
     post "/signup", AccountController, :create
     get "/change_email", AccountController, :edit_email
@@ -28,29 +30,28 @@ defmodule DnoteWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :destroy
 
-    get "/", HomeController, :index
+    get "/$labels", LabelController, :index
+    get "/!:label", LabelController, :show
 
     get "/$boards", BoardController, :index
     get "/$boards/new", BoardController, :new
     post "/$boards", BoardController, :create
     get "/~:board", BoardController, :show
     get "/~:board/edit", BoardController, :edit
-    put "/~:board", BoardController, :update
-    delete "/~:board", BoardController, :destroy
-
-    get "/$labels", LabelController, :index
-    get "/_labels", LabelController, :query
-    get "/!:label", LabelController, :show
+    put "/~:board/edit", BoardController, :update
+    # get "/~:board/delete", BoardController, :delete
+    # put "/~:board/delete", BoardController, :destroy
 
     get "/$articles", ArticleController, :index
     get "/$articles/new", ArticleController, :new
+    post "/$articles/new", ArticleController, :create
     get "/&:article", ArticleController, :show
     get "/&:article/edit", ArticleController, :edit
 
     get "/$journals", JournalController, :index
     get "/$journals/new", JournalController, :new
     get "/_:journal", JournalController, :edit
-    post "/_:journal", JournalController, :update
+    put "/_:journal", JournalController, :update
     post "/_:journal/publish", JournalController, :publish
   end
 

@@ -9,7 +9,7 @@ defmodule Dnote.BoardController do
   def index(conn, params) do
     page = Map.get(params, "page", "1") |> DnoteUtil.parse_int()
     account = conn.assigns.current_user
-    boards = List.get_boards(account, page)
+    boards = List.get_boards(account_id: account.id, page: page)
 
     render(conn, "index.html", boards: boards, page: page)
   end

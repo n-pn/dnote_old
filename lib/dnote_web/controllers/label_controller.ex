@@ -9,7 +9,7 @@ defmodule Dnote.LabelController do
   def index(conn, params) do
     page = Map.get(params, "page", "1") |> DnoteUtil.parse_int()
     account = conn.assigns.current_user
-    labels = List.get_labels(account, page)
+    labels = List.get_labels(account_id: account.id)
     render(conn, "index.html", labels: labels, page: page)
   end
 
