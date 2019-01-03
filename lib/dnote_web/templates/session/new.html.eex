@@ -11,7 +11,7 @@
         <div class="fieldset-input input">
           <%= email_input f, :email, class: "input-control", placeholder: "Your email" %>
         </div>
-        <%= form_error f, :email %>
+        <%= field_message f, :email %>
       </div>
 
       <div class="fieldset">
@@ -19,7 +19,7 @@
         <div class="fieldset-input input">
           <%= password_input f, :password, class: "input-control", placeholder: "Your password" %>
         </div>
-        <%= form_error f, :password %>
+        <%= field_message f, :password %>
       </div>
 
       <div class="fieldset">
@@ -28,6 +28,6 @@
     <% end %>
   </section>
   <footer class="portal-footer">
-    Don't have an account? Click here to <%= link "signup", to: Routes.account_path(@conn, :new, next: return_url(@conn)) %>.
+    Don't have an account? Click here to <%= link "signup", to: Routes.account_path(@conn, :new, next: return_path(@conn)) %>.
   </footer>
 </div>
