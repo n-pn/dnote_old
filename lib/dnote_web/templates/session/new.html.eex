@@ -1,33 +1,39 @@
 <div id="session-create-form" class="portal _login">
-  <header class="portal-header">
-    <h1 class="portal-header-title">Login</h1>
-  </header>
-  <section class="portal-content">
-    <%= form_for @chset, Routes.session_path(@conn, :create), [as: :user], fn f -> %>
+  <%= form_for @chset, Routes.session_path(@conn, :create), [as: :user], fn f -> %>
+    <header class="portal-header">
+      <h1 class="portal-title">Login</h1>
+      <a href="<%= return_path(@conn) %>" class="portal-cancel">
+        <i class="icon _cancel"></i>
+      </a>
+    </header>
+
+    <section class="portal-content">
       <input type="hidden" name="next" value="<%= return_path(@conn) %>">
 
-      <div class="fieldset">
-        <%= label f, :email, "Email", class: "fieldset-label" %>
-        <div class="fieldset-input input">
+      <div class="field">
+        <%= label f, :email, "Email", class: "field-label" %>
+        <div class="field-input input">
           <%= email_input f, :email, class: "input-control", placeholder: "Your email" %>
         </div>
         <%= field_message f, :email %>
       </div>
 
-      <div class="fieldset">
-        <%= label f, :password, "Password", class: "fieldset-label" %>
-        <div class="fieldset-input input">
+      <div class="field">
+        <%= label f, :password, "Password", class: "field-label" %>
+        <div class="field-input input">
           <%= password_input f, :password, class: "input-control", placeholder: "Your password" %>
         </div>
         <%= field_message f, :password %>
       </div>
+    </section>
 
-      <div class="fieldset">
+    <footer class="portal-footer">
+      <div class="portal-submit">
         <%= submit "Log me in", class: "button _primary _fill _large" %>
       </div>
-    <% end %>
-  </section>
-  <footer class="portal-footer">
-    Don't have an account? Click here to <%= link "signup", to: Routes.account_path(@conn, :new, next: return_path(@conn)) %>.
-  </footer>
+      <div class="portal-switch">
+        Don't have an account? Click here to <%= link "signup", to: Routes.account_path(@conn, :new, next: return_path(@conn)) %>.
+      </div>
+    </footer>
+  <% end %>
 </div>

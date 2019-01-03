@@ -1,9 +1,13 @@
-<div id="account-create-form" class="portal _login">
-  <header class="portal-header">
-    <h1 class="portal-header-title">Signup</h1>
-  </header>
-  <section class="portal-content">
-    <%= form_for @chset, Routes.account_path(@conn, :create), [as: :user], fn f -> %>
+<div id="account-create-form" class="portal _signup">
+  <%= form_for @chset, Routes.account_path(@conn, :create), [as: :user], fn f -> %>
+    <header class="portal-header">
+      <h1 class="portal-title">Signup</h1>
+      <a href="<%= return_path(@conn) %>" class="portal-cancel">
+        <i class="icon _cancel"></i>
+      </a>
+    </header>
+
+    <section class="portal-content">
       <input type="hidden" name="next" value="<%= return_path(@conn) %>">
 
       <div class="field">
@@ -37,13 +41,15 @@
         </div>
         <%= field_message f, :password_confirmation %>
       </div>
+    </section>
 
-      <div class="field">
+    <footer class="portal-footer">
+      <div class="portal-submit">
         <%= submit "Register my account", class: "button _primary _fill _large" %>
       </div>
-    <% end %>
-  </section>
-  <footer class="portal-footer">
-    Already have an account? Click here to <%= link "login", to: Routes.session_path(@conn, :new, next: return_path(@conn)) %>.
-  </footer>
+      <div class="portal-switch">
+        Already have an account? Click here to <%= link "login", to: Routes.session_path(@conn, :new, next: return_path(@conn)) %>.
+      </div>
+    </footer>
+  <% end %>
 </div>
