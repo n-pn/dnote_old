@@ -1,6 +1,8 @@
 defmodule DnoteWeb.ViewHelpers do
   use Phoenix.HTML
 
+  def current_path(conn), do: Phoenix.Controller.current_path(conn)
+
   def field_message(form, field, default \\ nil) do
     case Keyword.get_values(form.errors, field) do
       [] -> content_tag(:div, default, class: "field-message _info")

@@ -1,0 +1,21 @@
+<nav class="header-nav _left">
+  <a href="/" class="header-logo">Dropnote</a>
+</nav>
+
+<nav class="header-nav _right">
+  <%= if logged_in?(@conn) do %>
+    <a href="/$journals/new" class="header-link _primary">
+      <i class="header-icon icon _draft"></i>
+      <span class="header-text _hidable">Draft</span>
+    </a>
+
+    <a href="<%= Routes.session_path(@conn, :destroy) %>" class="header-link">Logout</a>
+  <% else %>
+    <a href="<%= Routes.account_path(@conn, :new, next: current_path(@conn)) %>" class="header-link _primary">
+      <span class="header-text">Signup</span>
+    </a>
+    <a href="<%= Routes.session_path(@conn, :new, next: current_path(@conn)) %>" class="header-link">
+      <span class="header-text">Login</span>
+    </a>
+  <% end %>
+</nav>
