@@ -1,17 +1,17 @@
 defmodule Dnote.BoardController do
   use DnoteWeb, :controller
 
+  alias Dnote.List
+
   plug DnoteWeb.AccessControl, "user"
   plug DnoteWeb.FetchResource, "board" when action in [:show, :edit, :update, :delete]
 
-  alias Dnote.List
+  plug DnoteWeb.ParseParams, [page: {:integer, 1}, query: :string] when action in [:index]
 
-  def index(conn, params) do
-    page = Map.get(params, "page", "1") |> DnoteUtil.parse_int()
+  def index(conn, _params) do
     account = conn.assigns.current_user
-    boards = List.get_boards(account_id: account.id, page: page)
-
-    render(conn, "index.html", boards: boards, page: page)
+    boards = List.get_boards(conn.assigns.params ++ [account_id: account.id])
+    render(conn, "index.html", boards: boards)
   end
 
   def new(conn, params) do

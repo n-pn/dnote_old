@@ -8,7 +8,8 @@ defmodule DnoteWeb.ArticleController do
   plug DnoteWeb.FetchResource, "label" when action in [:index_label]
   plug DnoteWeb.FetchResource, "article" when action in [:show, :edit]
 
-  plug :parse_params when action in [:index, :index_board, :index_label]
+  plug DnoteWeb.ParseParams,
+       [page: {:integer, 1}] when action in [:index, :index_board, :index_label]
 
   def index(conn, _params) do
     account = conn.assigns.current_user
@@ -36,11 +37,5 @@ defmodule DnoteWeb.ArticleController do
 
   def show(conn, _params) do
     render(conn, "show.html")
-  end
-
-  defp parse_params(conn, _opts) do
-    page = Map.get(conn.params, "page", "1") |> DnoteUtil.parse_int()
-
-    conn |> assign(:params, page: page)
   end
 end

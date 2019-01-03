@@ -32,11 +32,23 @@ defmodule Dnote.Post do
   end
 
   def get_articles(params) do
-    from(r in Article, order_by: [desc: :weight])
-    |> Query.paginate(params[:page])
+    Article
     |> Query.where_eq(:account_id, params[:account_id])
     |> Query.where_eq(:board_id, params[:board_id])
     |> Query.where_contain(:label_ids, params[:label_ids])
+    |> Query.paginate(params[:page])
+    |> order_by(desc: :weight)
+    |> Repo.all()
+  end
+
+  def get_journals(params) do
+    Journal
+    |> Query.where_eq(:article_id, params[:article_id])
+    |> Query.where_eq(:account_id, params[:account_id])
+    |> Query.where_eq(:board_id, params[:board_id])
+    |> Query.where_contain(:label_ids, params[:label_ids])
+    |> Query.paginate(params[:page])
+    |> order_by(desc: :updated_at)
     |> Repo.all()
   end
 end

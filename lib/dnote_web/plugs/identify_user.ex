@@ -16,7 +16,4 @@ defmodule DnoteWeb.IdentifyUser do
 
   defp find_session(nil), do: {:error, "No session"}
   defp find_session(id), do: {:ok, User.get_session(id)}
-
-  def current_user(conn), do: conn.assigns[:current_user]
-  def logged_in?(conn), do: !!current_user(conn)
 end

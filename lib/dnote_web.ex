@@ -25,7 +25,8 @@ defmodule DnoteWeb do
       import DnoteWeb.Gettext
       alias DnoteWeb.Router.Helpers, as: Routes
 
-      import DnoteWeb.IdentifyUser, only: [current_user: 1, logged_in?: 1]
+      import DnoteWeb.WebHelpers
+      import DnoteWeb.ControllerHelpers
     end
   end
 
@@ -45,7 +46,8 @@ defmodule DnoteWeb do
       import DnoteWeb.Gettext
       alias DnoteWeb.Router.Helpers, as: Routes
 
-      import DnoteWeb.IdentifyUser, only: [current_user: 1, logged_in?: 1]
+      import DnoteWeb.WebHelpers
+      import DnoteWeb.ViewHelpers
     end
   end
 
