@@ -1,31 +1,49 @@
-<div id="account_form" class="portal _login">
+<div id="account-create-form" class="portal _login">
   <header class="portal-header">
     <h1 class="portal-header-title">Signup</h1>
   </header>
   <section class="portal-content">
-    <%= form_for @chset, Routes.account_path(@conn, :create, next: return_url(@conn)), [as: :user], fn f -> %>
+    <%= form_for @chset, Routes.account_path(@conn, :create), [as: :user], fn f -> %>
+      <input type="hidden" name="next" value="<%= return_path(@conn) %>">
+
       <div class="fieldset">
         <%= label f, :email, "Email", class: "fieldset-label" %>
         <div class="fieldset-input input">
-          <%= email_input f, :email, class: "input-control", placeholder: "Email address" %>
+          <%= email_input f, :email, class: "input-control", placeholder: "A valid email address" %>
         </div>
         <%= form_error f, :email %>
       </div>
 
       <div class="fieldset">
+        <%= label f, :username, "Username", class: "fieldset-label" %>
+        <div class="fieldset-input input">
+          <%= text_input f, :username, class: "input-control", placeholder: "Unique username for each account" %>
+        </div>
+        <%= form_error f, :username %>
+      </div>
+
+      <div class="fieldset">
         <%= label f, :password, "Password", class: "fieldset-label" %>
         <div class="fieldset-input input">
-          <%= password_input f, :password, class: "input-control", placeholder: "Mật khẩu" %>
+          <%= password_input f, :password, class: "input-control", placeholder: "Should have at least 8 characters" %>
         </div>
         <%= form_error f, :password %>
       </div>
 
       <div class="fieldset">
-        <%= submit "Signup", class: "button _primary _fill _large" %>
+        <%= label f, :password_confirmation, "Password confirmation", class: "fieldset-label" %>
+        <div class="fieldset-input input">
+          <%= password_input f, :password_confirmation, class: "input-control", placeholder: "Match password above" %>
+        </div>
+        <%= form_error f, :password_confirmation %>
+      </div>
+
+      <div class="fieldset">
+        <%= submit "Register my account", class: "button _primary _fill _large" %>
       </div>
     <% end %>
   </section>
   <footer class="portal-footer">
-    Click here to <%= link "login", to: Routes.session_path @conn, :new, next: return_url(@conn) %>
+    Already have an account? Click here to <%= link "login", to: Routes.session_path(@conn, :new, next: return_url(@conn)) %>.
   </footer>
 </div>

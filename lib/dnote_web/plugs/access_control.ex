@@ -16,14 +16,13 @@ defmodule DnoteWeb.AccessControl do
       nil ->
         conn
         |> put_flash(:error, "You need to log in.")
-        |> redirect(to: Routes.session_path(conn, :new))
+        |> redirect(to: Routes.session_path(conn, :new, next: current_path(conn)))
         |> halt
 
       user ->
         if !check_role(user, role) do
           conn
-          |> put_flash(:error, "You are not authorized to access this page.")
-          |> redirect(to: "/401")
+          |> send_resp(401, "Unauthorized")
           |> halt
         else
           conn
