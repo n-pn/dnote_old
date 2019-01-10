@@ -4,7 +4,7 @@
 
 <nav class="header-nav _right">
   <%= if logged_in?(@conn) do %>
-    <a href="/$journals/new" class="header-link _primary">
+    <a href="/$replicas/new" class="header-link _primary">
       <i class="header-icon icon _draft"></i>
       <span class="header-text _hidable">Draft</span>
     </a>

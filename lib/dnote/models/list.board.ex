@@ -11,7 +11,7 @@ defmodule Dnote.Board do
 
     field :weight, :integer, default: 0
     field :label_count, :integer, default: 0
-    field :journal_count, :integer, default: 0
+    field :replica_count, :integer, default: 0
     field :article_count, :integer, default: 0
 
     timestamps()

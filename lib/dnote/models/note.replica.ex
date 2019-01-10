@@ -1,8 +1,8 @@
-defmodule Dnote.Journal do
+defmodule Dnote.Replica do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "journals" do
+  schema "replicas" do
     belongs_to :board, Dnote.Board
     belongs_to :account, Dnote.Account
     belongs_to :article, Dnote.Article

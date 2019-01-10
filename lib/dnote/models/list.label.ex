@@ -10,7 +10,7 @@ defmodule Dnote.Label do
 
     field :weight, :integer, default: 0
     field :board_count, :integer, default: 0
-    field :journal_count, :integer, default: 0
+    field :replica_count, :integer, default: 0
     field :article_count, :integer, default: 0
 
     timestamps()

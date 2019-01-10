@@ -11,7 +11,7 @@ defmodule Dnote.Repo.Migrations.CreateAccounts do
 
       add :board_count, :integer, default: 0, null: false
       add :label_count, :integer, default: 0, null: false
-      add :journal_count, :integer, default: 0, null: false
+      add :replica_count, :integer, default: 0, null: false
       add :article_count, :integer, default: 0, null: false
 
       timestamps()

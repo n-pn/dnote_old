@@ -48,11 +48,11 @@ defmodule DnoteWeb.Router do
     get "/&:article", ArticleController, :show
     get "/&:article/edit", ArticleController, :edit
 
-    get "/$journals", JournalController, :index
-    get "/$journals/new", JournalController, :new
-    get "/_:journal", JournalController, :edit
-    put "/_:journal", JournalController, :update
-    post "/_:journal/publish", JournalController, :publish
+    get "/$replicas", ReplicaController, :index
+    get "/$replicas/new", ReplicaController, :new
+    get "/_:replica", ReplicaController, :edit
+    put "/_:replica", ReplicaController, :update
+    post "/_:replica/publish", ReplicaController, :publish
   end
 
   # Other scopes may use custom stacks.

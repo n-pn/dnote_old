@@ -1,8 +1,8 @@
-defmodule Dnote.Repo.Migrations.CreateJournals do
+defmodule Dnote.Repo.Migrations.CreateReplicas do
   use Ecto.Migration
 
   def change do
-    create table(:journals) do
+    create table(:replicas) do
       add :board_id, references(:boards, on_delete: :nothing)
       add :account_id, references(:accounts, on_delete: :nothing)
       add :article_id, references(:articles, on_delete: :nothing)
@@ -17,12 +17,12 @@ defmodule Dnote.Repo.Migrations.CreateJournals do
       timestamps()
     end
 
-    create index(:journals, [:board_id, :status])
-    create index(:journals, [:account_id, :status])
-    create index(:journals, [:article_id])
+    create index(:replicas, [:board_id, :status])
+    create index(:replicas, [:account_id, :status])
+    create index(:replicas, [:article_id])
 
     alter table(:articles) do
-      add :current_journal_id, references(:journals, on_delete: :nothing)
+      add :current_replica_id, references(:replicas, on_delete: :nothing)
     end
   end
 end

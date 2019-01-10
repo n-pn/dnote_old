@@ -1,16 +1,16 @@
 defmodule Dnote.Post do
   use Dnote, :context
 
-  alias Dnote.{Article, Journal, Account}
+  alias Dnote.{Article, Replica, Account}
 
   def get_article(%Account{} = account, slug) do
     id = Obfus.decrypt(slug)
     Repo.get_by(Article, id: id, account_id: account.id)
   end
 
-  def get_journal(%Account{} = account, slug) do
+  def get_replica(%Account{} = account, slug) do
     id = Obfus.decrypt(slug)
-    Repo.get_by(Journal, id: id, account_id: account.id)
+    Repo.get_by(Replica, id: id, account_id: account.id)
   end
 
   def create_article(%Account{} = account, params) do
@@ -25,8 +25,8 @@ defmodule Dnote.Post do
     |> Repo.update()
   end
 
-  def create_journal(%Account{} = account, params) do
-    %Journal{account_id: account.id}
+  def create_replica(%Account{} = account, params) do
+    %Replica{account_id: account.id}
     |> Ecto.Changeset.change(params)
     |> Repo.insert()
   end
@@ -41,8 +41,8 @@ defmodule Dnote.Post do
     |> Repo.all()
   end
 
-  def get_journals(params) do
-    Journal
+  def get_replicas(params) do
+    Replica
     |> Query.where_eq(:article_id, params[:article_id])
     |> Query.where_eq(:account_id, params[:account_id])
     |> Query.where_eq(:board_id, params[:board_id])

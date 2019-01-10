@@ -14,7 +14,7 @@ defmodule Dnote.Repo.Migrations.CreateArticles do
 
       add :status, :string, default: "public", null: false
 
-      add :journal_count, :integer, default: 0
+      add :replica_count, :integer, default: 0
 
       timestamps()
     end

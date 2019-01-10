@@ -11,7 +11,7 @@ defmodule Dnote.Repo.Migrations.CreateBoards do
 
       add :weight, :integer, default: 0, null: false
       add :label_count, :integer, default: 0, null: false
-      add :journal_count, :integer, default: 0, null: false
+      add :replica_count, :integer, default: 0, null: false
       add :article_count, :integer, default: 0, null: false
 
       timestamps()

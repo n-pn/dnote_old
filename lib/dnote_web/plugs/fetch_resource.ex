@@ -5,7 +5,7 @@ defmodule DnoteWeb.FetchResource do
 
   def init(opts), do: opts
 
-  def call(conn, type) when type in [:board, :label, :article, :journal] do
+  def call(conn, type) when type in [:board, :label, :article, :replica] do
     account = current_user(conn)
 
     with name = conn.params[type],
