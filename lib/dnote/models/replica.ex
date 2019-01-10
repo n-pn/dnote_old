@@ -3,7 +3,6 @@ defmodule Dnote.Replica do
   import Ecto.Changeset
 
   schema "replicas" do
-    belongs_to :board, Dnote.Board
     belongs_to :account, Dnote.Account
     belongs_to :article, Dnote.Article
 

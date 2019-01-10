@@ -7,12 +7,21 @@ defmodule Dnote do
   if it comes from the database, an external API or others.
   """
 
-  def context do
+  def repo do
     quote do
       alias Dnote.{Repo, Query}
-      alias DnoteUtil, as: Util
-
       import Ecto.Query
+
+      alias DnoteUtil, as: Util
+    end
+  end
+
+  def schema do
+    quote do
+      use Ecto.Schema
+      import Ecto.Changeset
+
+      alias DnoteUtil, as: Util
     end
   end
 

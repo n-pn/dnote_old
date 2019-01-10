@@ -4,19 +4,15 @@ defmodule Dnote.Article do
 
   schema "articles" do
     belongs_to :account, Dnote.Account
-    belongs_to :board, Dnote.Board
 
-    field :label_ids, {:array, :integer}, default: []
-    field :label_names, {:array, :string}, default: []
-
+    field :keyword_ids, {:array, :integer}, default: []
     field :content, :string
     field :preview, :map
 
     field :status, :string, default: "public"
+    field :weight, :integer, default: 0
 
-    field :replica_count, :integer
-    has_one :current_replica, Dnote.Replica
-    has_many :replicas, Dnote.Replica
+    field :replica_count, :integer, default: 0
 
     timestamps()
   end

@@ -1,7 +1,7 @@
 defmodule DnoteWeb.IdentifyUser do
   import Plug.Conn
 
-  alias Dnote.User
+  alias Dnote.SessionRepo
 
   def init(opts), do: opts
 
@@ -15,5 +15,5 @@ defmodule DnoteWeb.IdentifyUser do
   end
 
   defp find_session(nil), do: {:error, "No session"}
-  defp find_session(id), do: {:ok, User.get_session(id)}
+  defp find_session(id), do: {:ok, SessionRepo.get(id)}
 end

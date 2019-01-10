@@ -1,4 +1,4 @@
-defmodule Dnote.Board do
+defmodule Dnote.Keyword do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -7,12 +7,12 @@ defmodule Dnote.Board do
 
     field :name, :string
     field :slug, :string
-    field :desc, :string
 
+    field :status, :integer, default: 0
     field :weight, :integer, default: 0
-    field :label_count, :integer, default: 0
-    field :replica_count, :integer, default: 0
+
     field :article_count, :integer, default: 0
+    field :replica_count, :integer, default: 0
 
     timestamps()
   end
@@ -23,9 +23,8 @@ defmodule Dnote.Board do
     |> cast(attrs, [:name, :desc])
     |> validate_required([:name])
     |> validate_length(:name, min: 1, max: 15)
-    |> validate_length(:desc, max: 1000)
     |> slugify_name
-    |> unique_constraint(:name, name: "boards_unique_index")
+    |> unique_constraint(:name, name: "keywords_unique_index")
   end
 
   defp slugify_name(%{valid?: false} = chset), do: chset

@@ -1,7 +1,7 @@
 defmodule DnoteWeb.FetchResource do
   use DnoteWeb, :plug
 
-  alias Dnote.{List, Note}
+  alias Dnote.{ArticleRepo, KeywordRepo}
 
   def init(opts), do: opts
 
@@ -17,14 +17,11 @@ defmodule DnoteWeb.FetchResource do
     end
   end
 
-  defp get(_, "board", nil), do: {:error, "Board not found"}
-  defp get(user, "board", name), do: {:ok, List.get_board(user, name)}
-
-  defp get(_, "label", nil), do: {:error, "Label not found"}
-  defp get(user, "label", name), do: {:ok, List.get_label(user, name)}
+  defp get(_, "keyword", nil), do: {:error, "Keyword not found"}
+  defp get(account, "keyword", name), do: {:ok, KeywordRepo.find(account, name)}
 
   defp get(_, "article", nil), do: {:error, "Article not found"}
-  defp get(user, "article", slug), do: {:ok, Note.get_article(user, slug)}
+  defp get(account, "article", slug), do: {:ok, ArticleRepo.find(account, slug)}
 
   defp render_error(conn, message) do
     conn
