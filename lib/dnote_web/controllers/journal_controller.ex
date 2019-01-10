@@ -1,7 +1,7 @@
 defmodule DnoteWeb.ReplicaController do
   use DnoteWeb, :controller
 
-  alias Dnote.Post
+  alias Dnote.Note
 
   plug DnoteWeb.AccessControl, "user"
   plug DnoteWeb.FetchResource, "replica" when action in [:show, :edit]
@@ -11,7 +11,7 @@ defmodule DnoteWeb.ReplicaController do
   def index(conn, _params) do
     account = conn.assigns.current_user
     page = conn.assigns.params.page
-    replicas = Post.get_replicas(page: page, account_id: account.id)
+    replicas = Note.get_replicas(page: page, account_id: account.id)
 
     render(conn, "index.html", replicas: replicas, action: :index)
   end

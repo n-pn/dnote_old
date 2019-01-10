@@ -1,7 +1,7 @@
 defmodule DnoteWeb.FetchResource do
   use DnoteWeb, :plug
 
-  alias Dnote.{List, Post}
+  alias Dnote.{List, Note}
 
   def init(opts), do: opts
 
@@ -24,7 +24,7 @@ defmodule DnoteWeb.FetchResource do
   defp get(user, "label", name), do: {:ok, List.get_label(user, name)}
 
   defp get(_, "article", nil), do: {:error, "Article not found"}
-  defp get(user, "article", slug), do: {:ok, Post.get_article(user, slug)}
+  defp get(user, "article", slug), do: {:ok, Note.get_article(user, slug)}
 
   defp render_error(conn, message) do
     conn

@@ -1,4 +1,4 @@
-defmodule Dnote.Post do
+defmodule Dnote.Note do
   use Dnote, :context
 
   alias Dnote.{Article, Replica, Account}
