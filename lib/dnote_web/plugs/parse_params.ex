@@ -3,26 +3,24 @@ defmodule DnoteWeb.ParseParams do
 
   def init(opts), do: opts
 
-  def call(conn, list) do
-    params = list |> Enum.map(&parse_param(conn, &1)) |> Enum.reject(&is_nil(&1))
+  def call(conn, opts) when is_tuple(opts), do: parse(conn, opts)
+
+  def call(conn, opts) when is_list(opts) do
+    params = opts |> Stream.map(&parse(conn, &1)) |> Enum.reject(&is_nil(&1))
     conn |> assign(:params, params)
   end
 
-  defp parse_param(conn, {key, type}) when is_atom(type) do
-    case cast(type, fetch_data(conn, key), nil) do
+  defp parse(conn, {name, type}), do: parse(conn, {name, type, nil})
+
+  defp parse(conn, {name, type, default}),
+    do: parse(conn, {name, type, default, String.to_atom(name)})
+
+  defp parse(conn, {name, type, default, atom}) do
+    case cast(type, conn.params[name], default) do
       nil -> nil
-      value -> {key, value}
+      value -> {atom, value}
     end
   end
-
-  defp parse_param(conn, {key, {type, default}}) do
-    case cast(type, fetch_data(conn, key), default) do
-      nil -> nil
-      value -> {key, value}
-    end
-  end
-
-  defp fetch_data(conn, key), do: conn.params[Atom.to_string(key)]
 
   defp cast(_, nil, default), do: default
   defp cast(:integer, data, default), do: parse_int(data, default)

@@ -5,7 +5,9 @@ defmodule Dnote.KeywordController do
 
   plug DnoteWeb.AccessControl, "user"
   plug DnoteWeb.FetchResource, "keyword" when action in [:show, :edit, :update, :delete]
-  plug DnoteWeb.ParseParams, [page: {:integer, 1}, query: :string] when action == :index
+
+  plug DnoteWeb.ParseParams,
+       [{"p", :integer, 1, :page}, {"q", :string, nil, "query"}] when action == :index
 
   def index(conn, _params) do
     account = conn.assigns.current_user

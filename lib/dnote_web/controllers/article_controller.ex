@@ -5,7 +5,7 @@ defmodule DnoteWeb.ArticleController do
 
   plug DnoteWeb.AccessControl, "user"
   plug DnoteWeb.FetchResource, "article" when action in [:show, :edit]
-  plug DnoteWeb.ParseParams, [page: {:integer, 1}] when action == :index
+  plug DnoteWeb.ParseParams, {"p", :integer, 1, :page} when action == :index
 
   def index(conn, _params) do
     account = conn.assigns.current_user
