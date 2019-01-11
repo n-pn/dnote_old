@@ -9,10 +9,10 @@ defmodule Dnote.Repo.Migrations.CreateArticles do
       add :content, :text, null: false
       add :preview, :map, null: false
 
-      add :status, :string, default: "public", null: false
+      add :status, :integer, default: 1, null: false
       add :weight, :integer, default: 0, null: false
 
-      add :replica_count, :integer, default: 0, null: false
+      add :replica_count, :integer, default: 1, null: false
 
       timestamps()
     end

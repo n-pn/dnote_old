@@ -1,4 +1,15 @@
 defmodule DnoteUtil do
+  @epoch ~N[2019-01-01 00:00:00]
+
+  def time_diff(current \\ NaiveDateTime.utc_now(), previous \\ @epoch) do
+    NaiveDateTime.diff(current, previous)
+  end
+
+  @one_year_in_minutes 525_600
+  def weighing(status, count), do: weighing(status) + count
+  def weighing(status), do: weighing() + status * @one_year_in_minutes
+  def weighing, do: div(time_diff(), 60)
+
   def parse_int(str) do
     String.to_integer(str)
   end
