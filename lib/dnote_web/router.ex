@@ -17,8 +17,6 @@ defmodule DnoteWeb.Router do
   scope "/", DnoteWeb do
     pipe_through :browser
 
-    get "/", HomeController, :index
-
     get "/signup", AccountController, :new
     post "/signup", AccountController, :create
     get "/change_email", AccountController, :edit_email
@@ -30,29 +28,15 @@ defmodule DnoteWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :destroy
 
-    get "/$labels", LabelController, :index
-    get "/!:label", LabelController, :show
-
-    get "/$boards", BoardController, :index
-    get "/$boards/new", BoardController, :new
-    post "/$boards", BoardController, :create
-    get "/~:board", BoardController, :show
-    get "/~:board/edit", BoardController, :edit
-    put "/~:board/edit", BoardController, :update
-    # get "/~:board/delete", BoardController, :delete
-    # put "/~:board/delete", BoardController, :destroy
-
-    get "/$articles", ArticleController, :index
-    get "/$articles/new", ArticleController, :new
-    post "/$articles/new", ArticleController, :create
+    get "/new", ArticleController, :new
+    post "/new", ArticleController, :create
     get "/&:article", ArticleController, :show
     get "/&:article/edit", ArticleController, :edit
 
-    get "/$replicas", ReplicaController, :index
-    get "/$replicas/new", ReplicaController, :new
-    get "/_:replica", ReplicaController, :edit
-    put "/_:replica", ReplicaController, :update
-    post "/_:replica/publish", ReplicaController, :publish
+    get "/&:article/history", ReplicaController, :index
+    get "/&:article/history/:replica", ReplicaController, :show
+
+    get "/*keywords", ArticleController, :index
   end
 
   # Other scopes may use custom stacks.
