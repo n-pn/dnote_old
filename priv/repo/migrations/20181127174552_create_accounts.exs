@@ -6,7 +6,6 @@ defmodule Dnote.Repo.Migrations.CreateAccounts do
       add :role, :string, default: "user", null: false
 
       add :email, :citext, null: false
-      add :username, :citext, null: false
       add :password_encrypted, :string, null: false
 
       add :keyword_count, :integer, default: 0, null: false
@@ -16,6 +15,5 @@ defmodule Dnote.Repo.Migrations.CreateAccounts do
     end
 
     create unique_index(:accounts, [:email])
-    create unique_index(:accounts, [:username])
   end
 end

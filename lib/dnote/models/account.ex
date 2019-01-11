@@ -6,7 +6,6 @@ defmodule Dnote.Account do
     field :role, :string, default: "user"
 
     field :email, :string
-    field :username, :string
     field :password_encrypted, :string
 
     field :keyword_count, :integer, default: 0
@@ -22,17 +21,15 @@ defmodule Dnote.Account do
   @doc false
   def changeset(model, attrs, :manual) do
     model
-    |> cast(attrs, [:role, :email, :username, :password])
+    |> cast(attrs, [:role, :email, :password])
     |> validate_email
-    |> validate_username
     |> encrypt_password
   end
 
   def changeset(model, attrs, :signup) do
     model
-    |> cast(attrs, [:email, :username, :password, :password_confirmation])
+    |> cast(attrs, [:email, :password, :password_confirmation])
     |> validate_email
-    |> validate_username
     |> validate_password
   end
 
@@ -58,16 +55,6 @@ defmodule Dnote.Account do
     |> validate_format(:email, @email_format)
     |> validate_length(:email, min: 3, max: 100)
     |> unique_constraint(:email)
-  end
-
-  @username_format ~r/^[\w-.]+$/u
-  defp validate_username(chset) do
-    chset
-    |> update_change(:username, &String.trim/1)
-    |> validate_required(:username)
-    |> validate_length(:username, min: 3, max: 20)
-    |> validate_format(:username, @username_format)
-    |> unique_constraint(:username)
   end
 
   defp validate_password(chset) do
