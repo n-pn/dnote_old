@@ -11,9 +11,15 @@ defmodule Dnote.Application do
       # Start the Ecto repository
       Dnote.Repo,
       # Start the endpoint when the application starts
-      DnoteWeb.Endpoint
+      DnoteWeb.Endpoint,
       # Starts a worker by calling: Dnote.Worker.start_link(arg)
-      # {Dnote.Worker, arg},
+      # {Dnote.Worker, arg}
+      %{
+        id: NodeJS,
+        start: {NodeJS, :start_link, [[path: "lib/hmark", pool_size: 4]]},
+        type: :supervisor
+      }
+      # supervisor(NodeJS, [[path: "lib/hmark", pool_size: 4]])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -44,6 +44,9 @@ defmodule Dnote.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:pbkdf2_elixir, "~> 0.12"},
+      {:httpoison, "~> 1.4"},
+      {:nodejs, "~> 0.1.0"},
+      {:floki, "~> 0.20.0"},
       {:obfus, git: "https://github.com/nipinium/obfus.git"}
     ]
   end

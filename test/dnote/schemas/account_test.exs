@@ -56,6 +56,6 @@ defmodule Dnote.AccountTest do
   end
 
   defp changeset(params) do
-    Account.changeset(%Account{}, params)
+    Account.changeset(%Account{}, params, :manual)
   end
 end

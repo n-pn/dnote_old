@@ -4,22 +4,21 @@ defmodule Dnote.Repo.Migrations.CreateReplicas do
   def change do
     create table(:replicas) do
       add :account_id, references(:accounts, on_delete: :nothing)
-      add :article_id, references(:articles, on_delete: :nothing)
+      add :writing_id, references(:writings, on_delete: :nothing)
 
       add :index, :integer, default: 0, null: false
 
-      add :keyword_names, {:array, :string}, default: [], null: false
-      add :content_input, :text, null: false
+      add :keywords, {:array, :string}, default: [], null: false
+      add :content, :text, null: false
 
       timestamps()
     end
 
     create index(:replicas, [:account_id])
-    create index(:replicas, [:article_id])
+    create index(:replicas, [:writing_id])
 
-    alter table(:articles) do
-      add :replica_count, :integer, default: 0, null: false
-      # add :current_replica_id, references(:replicas, on_delete: :nothing)
-    end
+    # alter table(:articles) do
+    #   add :replica_id, references(:replicas, on_delete: :nothing)
+    # end
   end
 end

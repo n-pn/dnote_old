@@ -7,9 +7,13 @@ defmodule Dnote.KeywordRepo do
     Ecto.Changeset.change(keyword, params)
   end
 
-  def find(account, name) do
+  def find(%Account{} = account, name) do
+    find(account.id, name)
+  end
+
+  def find(account_id, name) do
     slug = DnoteUtil.slugify(name)
-    Repo.get_by(Keyword, slug: slug, account_id: account.id)
+    Repo.get_by(Keyword, slug: slug, account_id: account_id)
   end
 
   def glob(params) do
@@ -21,25 +25,33 @@ defmodule Dnote.KeywordRepo do
     |> Repo.all()
   end
 
-  def select_or_create!(%Account{} = account, names) when is_list(names) do
-    names |> Enum.map(&select_or_create!(account, &1))
+  def select_or_create!(%Account{} = account, opts) do
+    select_or_create!(account.id, opts)
   end
 
-  def select_or_create!(%Account{} = account, name) when is_binary(name) do
-    case find(account, name) do
-      nil -> create!(account, %{name: name})
+  def select_or_create!(account_id, names) when is_list(names) do
+    names |> Enum.map(&select_or_create!(account_id, &1))
+  end
+
+  def select_or_create!(account_id, name) when is_binary(name) do
+    case find(account_id, name) do
+      nil -> create!(account_id, %{name: name})
       name -> name
     end
   end
 
   def create(%Account{} = account, params) do
-    %Keyword{account_id: account.id}
+    create(account.id, params)
+  end
+
+  def create(account_id, params) do
+    %Keyword{account_id: account_id}
     |> Ecto.Changeset.change(params)
     |> Repo.insert()
   end
 
-  def create!(%Account{} = account, params) do
-    %Keyword{account_id: account.id}
+  def create!(account_id, params) do
+    %Keyword{account_id: account_id}
     |> Ecto.Changeset.change(params)
     |> Repo.insert!()
   end
