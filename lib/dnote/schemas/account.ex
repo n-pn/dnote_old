@@ -9,7 +9,7 @@ defmodule Dnote.Account do
     field :password_encrypted, :string
 
     field :keyword_count, :integer, default: 0
-    field :article_count, :integer, default: 0
+    field :writing_count, :integer, default: 0
 
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true

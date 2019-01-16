@@ -25,7 +25,7 @@ defmodule Dnote.KeywordController do
     account = current_user(conn)
 
     case KeywordRepo.create(account, params) do
-      {:ok, _keyword} -> redirect(conn, to: Routes.article_path(:index, []))
+      {:ok, _keyword} -> redirect(conn, to: Routes.writing_path(:index, []))
       {:error, chset} -> render(conn, "new.html", chset: chset)
     end
   end
@@ -43,7 +43,7 @@ defmodule Dnote.KeywordController do
     keyword = conn.assigns.current_keyword
 
     case KeywordRepo.update(keyword, params) do
-      {:ok, _keyword} -> redirect(conn, to: Routes.article_path(:index, []))
+      {:ok, _keyword} -> redirect(conn, to: Routes.writing_path(:index, []))
       {:error, chset} -> render(conn, "edit.html", chset: chset)
     end
   end

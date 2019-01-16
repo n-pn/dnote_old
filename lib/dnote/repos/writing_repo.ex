@@ -1,15 +1,15 @@
-defmodule Dnote.ArticleRepo do
+defmodule Dnote.WritingRepo do
   use Dnote, :repo
 
-  alias Dnote.{Article, Account}
+  alias Dnote.{Writing, Account}
 
   def find(%Account{} = account, slug) do
     id = Obfus.decrypt(slug)
-    Repo.get_by(Article, id: id, account_id: account.id)
+    Repo.get_by(Writing, id: id, account_id: account.id)
   end
 
   def glob(params) do
-    Article
+    Writing
     |> Query.where_eq(:account_id, params[:account_id])
     |> Query.where_contain(:keyword_ids, params[:keyword_ids])
     |> Query.paginate(params[:page])
@@ -18,13 +18,13 @@ defmodule Dnote.ArticleRepo do
   end
 
   def create(%Account{} = account, params) do
-    %Article{account_id: account.id}
+    %Writing{account_id: account.id}
     |> Ecto.Changeset.change(params)
     |> Repo.insert()
   end
 
   def update(%Account{} = account, params) do
-    %Article{account_id: account.id}
+    %Writing{account_id: account.id}
     |> Ecto.Changeset.change(params)
     |> Repo.update()
   end

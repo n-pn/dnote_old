@@ -18,7 +18,8 @@ defmodule Dnote.Repo.Migrations.CreateReplicas do
     create index(:replicas, [:article_id])
 
     alter table(:articles) do
-      add :current_replica_id, references(:replicas, on_delete: :nothing)
+      add :replica_count, :integer, default: 0, null: false
+      # add :current_replica_id, references(:replicas, on_delete: :nothing)
     end
   end
 end

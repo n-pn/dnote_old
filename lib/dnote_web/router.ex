@@ -28,15 +28,15 @@ defmodule DnoteWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :destroy
 
-    get "/new", ArticleController, :new
-    post "/new", ArticleController, :create
-    get "/&:article", ArticleController, :show
-    get "/&:article/edit", ArticleController, :edit
+    get "/new", WritingController, :new
+    post "/new", WritingController, :create
+    get "/&:writing", WritingController, :show
+    get "/&:writing/edit", WritingController, :edit
 
-    get "/&:article/history", ReplicaController, :index
-    get "/&:article/history/:replica", ReplicaController, :show
+    get "/&:writing/history", ReplicaController, :index
+    get "/&:writing/history/:replica", ReplicaController, :show
 
-    get "/*keywords", ArticleController, :index
+    get "/*keywords", WritingController, :index
   end
 
   # Other scopes may use custom stacks.

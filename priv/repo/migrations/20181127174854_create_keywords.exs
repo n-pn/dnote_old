@@ -11,7 +11,6 @@ defmodule Dnote.Repo.Migrations.CreateKeywords do
       add :status, :integer, default: 0, null: false
       add :weight, :integer, default: 0, null: false
 
-      add :replica_count, :integer, default: 0, null: false
       add :article_count, :integer, default: 0, null: false
 
       timestamps()

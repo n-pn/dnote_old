@@ -1,10 +1,12 @@
-defmodule Dnote.Article do
+defmodule Dnote.Writing do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "articles" do
+  schema "writings" do
     belongs_to :account, Dnote.Account
-    has_one :current_replica, Dnote.Replica
+
+    field :keyword_names, {:array, :string}, default: []
+    field :content_input, :string
 
     field :keyword_ids, {:array, :integer}, default: []
     field :content, :string
@@ -13,24 +15,24 @@ defmodule Dnote.Article do
     field :status, :integer, default: 1
     field :weight, :integer, default: 0
 
-    field :replica_count, :integer, default: 1
+    field :replica_count, :integer, default: 0
 
     timestamps()
   end
 
   @doc false
-  def changeset(article, replica, :create) do
-    article
+  def changeset(writing, replica, :create) do
+    writing
     |> update_weight
   end
 
-  def changeset(article, replica, :update) do
-    article
+  def changeset(writing, replica, :update) do
+    writing
     |> update_weight
   end
 
-  def changeset(article, status, :status) do
-    article
+  def changeset(writing, status, :status) do
+    writing
     |> update_change(:status, status)
     |> update_weight
   end

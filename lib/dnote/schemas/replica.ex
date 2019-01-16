@@ -4,7 +4,7 @@ defmodule Dnote.Replica do
 
   schema "replicas" do
     belongs_to :account, Dnote.Account
-    belongs_to :article, Dnote.Article
+    belongs_to :writing, Dnote.Writing
 
     field :index, :integer, default: 1
 

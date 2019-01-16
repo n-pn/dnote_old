@@ -4,14 +4,14 @@ defmodule DnoteWeb.ReplicaController do
   alias Dnote.ReplicaRepo
 
   plug DnoteWeb.AccessControl, "user"
-  plug DnoteWeb.FetchResource, "article" when action == :index
+  plug DnoteWeb.FetchResource, "writing" when action == :index
   plug DnoteWeb.FetchResource, "replica" when action == :show
 
   plug DnoteWeb.ParseParams, [page: [type: :integer, default: 1]] when action == :index
 
   def index(conn, _params) do
-    article = conn.assigns.current_user
-    replicas = ReplicaRepo.glob(conn.assigns.params ++ [article_id: article.id])
+    writing = conn.assigns.current_user
+    replicas = ReplicaRepo.glob(conn.assigns.params ++ [writing_id: writing.id])
     render(conn, "index.html", replicas: replicas)
   end
 

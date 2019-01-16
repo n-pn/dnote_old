@@ -11,8 +11,7 @@ defmodule Dnote.Keyword do
     field :status, :integer, default: 0
     field :weight, :integer, default: 0
 
-    field :article_count, :integer, default: 0
-    field :replica_count, :integer, default: 0
+    field :writing_count, :integer, default: 0
 
     timestamps()
   end
