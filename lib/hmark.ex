@@ -6,6 +6,6 @@ defmodule Hmark do
   end
 
   defp render_input(input) do
-    Nodejs.call("renderer", [input])
+    NodeJS.call("renderer", [input])
   end
 end

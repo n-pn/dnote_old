@@ -16,7 +16,7 @@ defmodule Dnote.SessionController do
         conn
         |> put_session("session_id", session.id)
         |> put_flash(:info, "Logged in successfully.")
-        |> redirect("/")
+        |> redirect(to: "/")
 
       {:error, chset} ->
         render(conn, "new.html", chset: chset)
@@ -29,6 +29,6 @@ defmodule Dnote.SessionController do
 
     conn
     |> put_flash(:info, "Logged out successfully.")
-    |> redirect("/")
+    |> redirect(to: "/")
   end
 end

@@ -34,7 +34,7 @@ defmodule Dnote.AccountController do
       {:ok} ->
         conn
         |> put_flash(:info, "Email updated successfully.")
-        |> redirect("/")
+        |> redirect(to: "/")
 
       {:error, chset} ->
         render(conn, "edit_email.html", chset: chset)
@@ -57,7 +57,7 @@ defmodule Dnote.AccountController do
 
         conn
         |> put_flash(:info, "Password updated successfully.")
-        |> redirect("/")
+        |> redirect(to: "/")
 
       {:error, chset} ->
         render(conn, "edit_password.html", chset: chset)
